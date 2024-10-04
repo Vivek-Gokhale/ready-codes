@@ -1,0 +1,40 @@
+class DisjointSet
+{
+    public:
+    vector<int> size, parent;
+    DisjointSet(int n)
+    {
+        size.resize(n+1, 1);
+        parent.resize(n+1);
+        for(int i=0; i<=n; i++)
+        {
+            parent[i] = i;
+        }
+    }
+    
+    int findUPar(int node)
+    {
+        if(parent[node] == node)return node;
+        return parent[node] = findUPar(parent[node]);
+    }
+    
+    bool unionBySize(int u, int v)
+    {
+        int upu = findUPar(u);
+        int upv = findUPar(v);
+        
+        if(upu == upv)return false;
+        if(size[upu] < size[upv])
+        {
+            parent[upu] = upv;
+            size[upv] += size[upu];
+        }
+        else 
+        {
+            parent[upv] = upu;
+            size[upu] += size[upv];
+        }
+        return true;
+        
+    }
+};
